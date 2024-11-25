@@ -22,3 +22,8 @@ export interface ProductCardHOCProps {
   Title: (Props: ProuducTitleProps) => ReactNode;
   Buttons: (Props: ProuducButtonsProps) => ReactNode;
 }
+
+export interface onChangeArgs {
+  product: Product;
+  count: number;
+}
