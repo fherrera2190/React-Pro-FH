@@ -1,14 +1,13 @@
 import { ReactNode } from "react";
+import { Props as ProductCardProps } from "../components/ProductCard";
+import { Props as ProuducTitleProps } from "../components/ProductTitle";
+import { Props as ProuducImageProps } from "../components/ProductImage";
+import { Props as ProuducButtonsProps } from "../components/ProductImage";
 
 export interface Product {
   id: string;
   title: string;
   img?: string;
-}
-
-export interface ProductCardProps {
-  product: Product;
-  children?: ReactNode;
 }
 
 export interface ProductContextProps {
@@ -19,7 +18,7 @@ export interface ProductContextProps {
 
 export interface ProductCardHOCProps {
   ({ children, product }: ProductCardProps): ReactNode;
-  Image: (props: { img: string }) => ReactNode;
-  Title: (props: { title: string }) => ReactNode;
-  Buttons: () => ReactNode;
+  Image: (Props: ProuducImageProps) => ReactNode;
+  Title: (Props: ProuducTitleProps) => ReactNode;
+  Buttons: (Props: ProuducButtonsProps) => ReactNode;
 }
