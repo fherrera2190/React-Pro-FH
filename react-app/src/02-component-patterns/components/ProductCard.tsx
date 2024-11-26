@@ -2,20 +2,25 @@ import styles from "../styles/styles.module.css";
 import { useProduct } from "../hooks/useProduct";
 import { createContext, CSSProperties, ReactNode } from "react";
 import {
+  InitialValues,
   onChangeArgs,
   Product,
+  ProductCardHandlers,
   ProductContextProps,
 } from "../interfaces/interfaces";
 
 export interface Props {
   product: Product;
-  children?: ReactNode;
+  children?: (args: ProductCardHandlers) => ReactNode;
+
   className?: string;
   style?: CSSProperties;
   onChange?: (args: onChangeArgs) => void;
   value?: number;
+  initialValues?: InitialValues;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ProductContext = createContext<ProductContextProps>(
   {} as ProductContextProps
 );
@@ -29,13 +34,34 @@ export const ProductCard = ({
   style,
   onChange,
   value,
+  initialValues,
 }: Props) => {
-  const { increaseBy, counter } = useProduct({ onChange, product, value });
+  const { increaseBy, counter, maxCount, isMaxCountReached, reset } =
+    useProduct({
+      onChange,
+      product,
+      value,
+      initialValues,
+    });
 
   return (
-    <Provider value={{ counter, increaseBy, product }}>
+    <Provider
+      value={{
+        counter,
+        increaseBy,
+        product,
+        maxCount,
+      }}
+    >
       <div className={`${styles.productCard} ${className}`} style={style}>
-        {children}
+        {children?.({
+          count: counter,
+          isMaxCountReached,
+          maxCount,
+          product,
+          reset,
+          increaseBy,
+        })}
       </div>
     </Provider>
   );
